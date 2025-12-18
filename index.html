@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>正在打开 App…</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+    var ua = navigator.userAgent || "";
+    var isIOS = /iPhone|iPad|iPod/.test(ua);
+    var isAndroid = /Android/.test(ua);
+
+    var iosLink = "https://liuqiaochi.github.io/open";
+    var iosStore = "https://apps.apple.com/app/id1577515422";
+    var androidIntent = "intent://open#Intent;scheme=myapp;package=com.example.myapp;end";
+    var androidStore = "https://play.google.com/store/apps/details?id=com.example.myapp";
+
+    if (isIOS) {
+        window.location.href = iosLink;
+        setTimeout(() => location.href = iosStore, 2000);
+    } else if (isAndroid) {
+        window.location.href = androidIntent;
+        setTimeout(() => location.href = androidStore, 2000);
+    } else {
+        document.body.innerHTML = "<h3>请在手机中打开</h3>";
+    }
+})();
+</script>
+</head>
+<body>
+<p>正在打开 App，请稍候…</p>
+</body>
+</html>
