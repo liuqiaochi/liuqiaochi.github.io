@@ -2,32 +2,135 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>正在打开 App…</title>
+<title>打开 App</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-(function () {
-    var ua = navigator.userAgent || "";
-    var isIOS = /iPhone|iPad|iPod/.test(ua);
-    var isAndroid = /Android/.test(ua);
 
-    var iosLink = "https://liuqiaochi.github.io/open";
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
+    background: #f6f7f9;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+}
+
+h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.desc {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.qr-box {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 28px;
+}
+
+.qr-item {
+    width: 45%;
+}
+
+.qr-item img {
+    width: 100%;
+    border-radius: 8px;
+    background: #fff;
+    padding: 6px;
+}
+
+.qr-item p {
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.open-btn {
+    width: 100%;
+    height: 46px;
+    font-size: 16px;
+    border-radius: 23px;
+    border: none;
+    background: #007aff;
+    color: #fff;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>打开 App</h1>
+    <div class="desc">已安装请直接打开，未安装可扫码下载</div>
+
+    <!-- 二维码区域 -->
+    <div class="qr-box">
+        <div class="qr-item">
+            <!-- iOS 下载二维码 -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://apps.apple.com/app/id1577515422">
+            <p>iOS 下载</p>
+        </div>
+
+        <div class="qr-item">
+            <!-- Android 下载二维码 -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://play.google.com/store/apps/details?id=com.example.myapp">
+            <p>Android 下载</p>
+        </div>
+    </div>
+
+    <!-- 打开 App 按钮 -->
+    <button class="open-btn" onclick="openApp()">打开 App</button>
+</div>
+
+<script>
+function openApp() {
+    var ua = navigator.userAgent || "";
+    var isIOS = /iPhone|iPad|iPod/i.test(ua);
+    var isAndroid = /Android/i.test(ua);
+
+    // ======= 根据你当前项目配置 =======
+    var iosUniversalLink = "https://liuqiaochi.github.io/open/page1";
     var iosStore = "https://apps.apple.com/app/id1577515422";
-    var androidIntent = "intent://open#Intent;scheme=myapp;package=com.example.myapp;end";
-    var androidStore = "https://play.google.com/store/apps/details?id=com.example.myapp";
+
+    var androidIntent =
+        "intent://open#Intent;" +
+        "scheme=myapp;" +
+        "package=com.example.myapp;" +
+        "end";
+
+    var androidStore =
+        "https://play.google.com/store/apps/details?id=com.example.myapp";
+    // =================================
 
     if (isIOS) {
-        window.location.href = iosLink;
-        setTimeout(() => location.href = iosStore, 2000);
+        // iOS：先尝试 Universal Link
+        window.location.href = iosUniversalLink;
+
+        // 兜底：2 秒后跳 App Store
+        setTimeout(function () {
+            window.location.href = iosStore;
+        }, 2000);
+
     } else if (isAndroid) {
+        // Android：Intent
         window.location.href = androidIntent;
-        setTimeout(() => location.href = androidStore, 2000);
+
+        setTimeout(function () {
+            window.location.href = androidStore;
+        }, 2000);
+
     } else {
-        document.body.innerHTML = "<h3>请在手机中打开</h3>";
+        alert("请在手机设备中打开");
     }
-})();
+}
 </script>
-</head>
-<body>
-<p>正在打开 App，请稍候…</p>
 </body>
 </html>
+
